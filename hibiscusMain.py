@@ -6,9 +6,9 @@ Created on 2016-1-23
 '''
 import os
 import hibiscusTools
-from xlwt import Workbook
 from audioop import reverse
 import sys
+import csv
 
 
 class Hibiscus():
@@ -46,12 +46,7 @@ class Hibiscus():
         self.calculte()
 
     def outExcel(self, filename):
-        wb = Workbook()
-        table = wb.add_sheet(u'新词')
-        table.write(0, 0, u'单词')
-        table.write(0, 1, u'出现次数')
-        table.write(0, 2, u'凝结度')
-        table.write(0, 3, u'自由度')
+        headers = ('word', 'count', 'solidification', 'freedom')
         lst = []
         for k, v in self.novelInfo.items():
             if v['count'] > 30 and len(
@@ -60,15 +55,15 @@ class Hibiscus():
 
         lst = sorted(lst, key=lambda x: x['count'], reverse=True)
 
-        line = 1
-        for index, item in enumerate(lst):
-            table.write(line, 0, item['word'])
-            table.write(line, 1, item['count'])
-            table.write(line, 2, item['solidification'])
-            table.write(line, 3, item['freedom'])
-            line += 1
-        wb.save('./' + os.path.splitext(os.path.basename(filename))[0] +
-                '.xls')
+        with open(filename + '.csv', 'w', encoding='gbk') as f:
+            f_csv = csv.DictWriter(f, headers, extrasaction='ignore')
+            f_csv.writerow({
+                'word': '单词',
+                'count': '出现次数',
+                'solidification': '凝结度',
+                'freedom': '自由度'
+            })
+            f_csv.writerows(lst)
 
     def calculte(self):
         for word, info in self.novelInfo.items():

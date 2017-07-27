@@ -16,9 +16,9 @@
 
 ## 如何使用
 
-hibiscusMain.py 为主程序，直接运行即可，程序将读取文件并最终输出一个excel文件
+hibiscusMain.py 为主程序，直接运行即可，程序将读取文件并最终输出一个 csv 文件
 
 ```bash
 python(3) hibiscusMain.py file.txt
-# -- > file.xls
+# -- > file.txt.csv
 ```
